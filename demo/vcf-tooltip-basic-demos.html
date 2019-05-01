@@ -1,4 +1,4 @@
-<dom-module id="incubator-tooltip-basic-demos">
+<dom-module id="vcf-tooltip-basic-demos">
   <template>
     <style include="vaadin-component-demo-shared-styles">
       :host {
@@ -7,19 +7,19 @@
     </style>
 
     <h3>Simple demo</h3>
-    <vaadin-demo-snippet id="incubator-tooltip-demo-sample-1">
+    <vaadin-demo-snippet id="vcf-tooltip-demo-sample-1">
       <template preserve-content>
         <h1 id="to-be-tooltiped">
           This is a test title with tooltip.
         </h1>
-        <incubator-tooltip for="to-be-tooltiped" position="top">
+        <vcf-tooltip for="to-be-tooltiped" position="top">
           Some descriptive text about this title.
-        </incubator-tooltip>
+        </vcf-tooltip>
       </template>
     </vaadin-demo-snippet>
 
     <h3>Rich</h3>
-    <vaadin-demo-snippet id="incubator-tooltip-demo-sample-2">
+    <vaadin-demo-snippet id="vcf-tooltip-demo-sample-2">
       <template preserve-content>
         <style>
           [part="tooltip-title"],
@@ -35,29 +35,29 @@
           }
         </style>
         <input type="text" id="to-be-tooltiped" />
-        <incubator-tooltip for="to-be-tooltiped" position="right" align="top">
+        <vcf-tooltip for="to-be-tooltiped" position="right" align="top">
           <div part="tooltip-title">
             Edit
           </div>
           <div part="tooltip-description">
             By pressing this button you are entitled to edit any element on the page.
           </div>
-        </incubator-tooltip>
+        </vcf-tooltip>
       </template>
     </vaadin-demo-snippet>
 
     <h3>Manual Mode</h3>
-    <vaadin-demo-snippet id="incubator-tooltip-demo-sample-3">
+    <vaadin-demo-snippet id="vcf-tooltip-demo-sample-3">
       <template preserve-content>
         <vaadin-button id="demo-btn">
           Tooltip will be shown after clicking on this
         </vaadin-button>
-        <incubator-tooltip id="my-tooltip" for="demo-btn" position="right" align="bottom" manual>
+        <vcf-tooltip id="my-tooltip" for="demo-btn" position="right" align="bottom" manual>
           A tooltip to remember.
-        </incubator-tooltip>
+        </vcf-tooltip>
       </template>
       <script>
-        window.addDemoReadyListener('#incubator-tooltip-demo-sample-3', function (document) {
+        window.addDemoReadyListener('#vcf-tooltip-demo-sample-3', function (document) {
           const tooltipElement = document.querySelector('#my-tooltip');
           const btn = document.querySelector('#demo-btn');
           btn.addEventListener('click', () => {
@@ -77,7 +77,7 @@
       from one button to the other one. Before clicking on the button the
       tooltip is not set. 
      </p>
-    <vaadin-demo-snippet id="incubator-tooltip-demo-sample-4">
+    <vaadin-demo-snippet id="vcf-tooltip-demo-sample-4">
       <template preserve-content>
         <vaadin-button id="demo-btn1">
           Button 1
@@ -88,12 +88,12 @@
         <vaadin-button id="action-button">
           Change Tooltip
         </vaadin-button>
-        <incubator-tooltip id="my-tooltip" position="right" align="bottom">
+        <vcf-tooltip id="my-tooltip" position="right" align="bottom">
           A tooltip to remember.
-        </incubator-tooltip>
+        </vcf-tooltip>
       </template>
       <script>
-        window.addDemoReadyListener('#incubator-tooltip-demo-sample-4', function (document) {
+        window.addDemoReadyListener('#vcf-tooltip-demo-sample-4', function (document) {
           const tooltipElement = document.querySelector('#my-tooltip');
           const btn = document.querySelector('#action-button');
           let i = 1;
@@ -111,7 +111,7 @@
      from one button to the other one. Before clicking on the button the
      tooltip is not set. 
     </p>
-    <vaadin-demo-snippet id="incubator-tooltip-demo-sample-5">
+    <vaadin-demo-snippet id="vcf-tooltip-demo-sample-5">
       <template preserve-content>
         <vaadin-button id="demo-btn1">
           Button 1
@@ -122,12 +122,12 @@
         <vaadin-button id="action-button">
           Change Tooltip
         </vaadin-button>
-        <incubator-tooltip id="my-tooltip" position="right" align="bottom">
+        <vcf-tooltip id="my-tooltip" position="right" align="bottom">
           A tooltip to remember.
-        </incubator-tooltip>
+        </vcf-tooltip>
       </template>
       <script>
-        window.addDemoReadyListener('#incubator-tooltip-demo-sample-5', function (document) {
+        window.addDemoReadyListener('#vcf-tooltip-demo-sample-5', function (document) {
           const tooltipElement = document.querySelector('#my-tooltip');
           const btn = document.querySelector('#action-button');
           let i = 1;
@@ -142,7 +142,7 @@
   <script>
     class VaadinTooltipBasicDemos extends DemoReadyEventEmitter(ElementDemo(Polymer.Element)) {
       static get is() {
-        return 'incubator-tooltip-basic-demos';
+        return 'vcf-tooltip-basic-demos';
       }
     }
     customElements.define(VaadinTooltipBasicDemos.is, VaadinTooltipBasicDemos);

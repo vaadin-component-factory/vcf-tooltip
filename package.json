@@ -1,25 +1,25 @@
 {
-  "name": "@vaadin/incubator-tooltip",
+  "name": "@vaadin/vcf-tooltip",
   "version": "1.0.0-beta2",
-  "description": "incubator-tooltip",
-  "main": "incubator-tooltip.html",
-  "repository": "vaadin/incubator-tooltip",
+  "description": "vcf-tooltip",
+  "main": "vcf-tooltip.html",
+  "repository": "vaadin/vcf-tooltip",
   "keywords": [
     "Vaadin",
-    "incubator-tooltip",
+    "vcf-tooltip",
     "web-components",
     "web-component",
     "polymer"
   ],
   "author": "Vaadin Ltd",
-  "license": "https://raw.githubusercontent.com/vaadin/incubator-tooltip/master/LICENSE",
+  "license": "https://raw.githubusercontent.com/vaadin/vcf-tooltip/master/LICENSE",
   "bugs": {
-    "url": "https://github.com/vaadin/incubator-tooltip/issues"
+    "url": "https://github.com/vaadin/vcf-tooltip/issues"
   },
   "homepage": "https://vaadin.com/components",
   "scripts": {
     "test": "wct",
-    "analyze": "polymer analyze incubator-tooltip.html > analysis.json",
+    "analyze": "polymer analyze vcf-tooltip.html > analysis.json",
     "preversion": "gulp version:update"
   },
   "devDependencies": {

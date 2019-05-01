@@ -10,7 +10,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
 <link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
 <link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
 
-<dom-module id="incubator-tooltip">
+<dom-module id="vcf-tooltip">
   <template>
     <style>
       :host {
@@ -51,19 +51,19 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
       'use strict';
 
       /**
-       * `<incubator-tooltip>` is a template for incubator components.
+       * `<vcf-tooltip>` is a template for vcf components.
        *
        * ```
-       * <incubator-tooltip>
-       * </incubator-tooltip>
+       * <vcf-tooltip>
+       * </vcf-tooltip>
        * ```
        *
        * @memberof Vaadin
        * @demo demo/index.html
        */
-      class IncubatorTooltip extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
+      class VcfTooltip extends Vaadin.ElementMixin(Vaadin.ThemableMixin(Polymer.Element)) {
         static get is() {
-          return 'incubator-tooltip';
+          return 'vcf-tooltip';
         }
 
         static get properties() {
@@ -290,15 +290,15 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         }
       }
 
-      customElements.define(IncubatorTooltip.is, IncubatorTooltip);
+      customElements.define(VcfTooltip.is, VcfTooltip);
 
       /**
        * @namespace Vaadin
        */
-      window.Vaadin.IncubatorTooltip = IncubatorTooltip;
+      window.Vaadin.VcfTooltip = VcfTooltip;
 
       if (window.Vaadin.runIfDevelopmentMode) {
-        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', IncubatorTooltip);
+        window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfTooltip);
       }
     })();
   </script>

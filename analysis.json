@@ -6,7 +6,7 @@
       "description": "",
       "summary": "",
       "sourceRange": {
-        "file": "src/incubator-tooltip.html",
+        "file": "src/vcf-tooltip.html",
         "start": {
           "line": 44,
           "column": 6
@@ -18,9 +18,9 @@
       },
       "elements": [
         {
-          "description": "`<incubator-tooltip>` is a template for incubator components.\n\n```\n<incubator-tooltip>\n</incubator-tooltip>\n```",
+          "description": "`<vcf-tooltip>` is a template for vcf components.\n\n```\n<vcf-tooltip>\n</vcf-tooltip>\n```",
           "summary": "",
-          "path": "src/incubator-tooltip.html",
+          "path": "src/vcf-tooltip.html",
           "properties": [],
           "methods": [],
           "staticMethods": [],
@@ -51,7 +51,7 @@
             "selectors": []
           },
           "slots": [],
-          "tagname": "incubator-tooltip"
+          "tagname": "vcf-tooltip"
         }
       ]
     }

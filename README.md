@@ -1,20 +1,20 @@
-[![Build Status](https://travis-ci.org/vaadin/incubator-tooltip.svg?branch=master)](https://travis-ci.org/vaadin/incubator-tooltip)
+[![Build Status](https://travis-ci.org/vaadin/vcf-tooltip.svg?branch=master)](https://travis-ci.org/vaadin/vcf-tooltip)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin/web-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# &lt;incubator-tooltip&gt;
+# &lt;vcf-tooltip&gt;
 
-[Live Demo ↗](https://incubator.app.fi/incubator-tooltip-demo/)
+[Live Demo ↗](https://incubator.app.fi/vcf-tooltip-demo/)
 
 
-[&lt;incubator-tooltip&gt;](https://vaadin.com/directory/component/vaadinincubator-tooltip) is a Web Component providing an easy way to display tooltips on any html element.
+[&lt;vcf-tooltip&gt;](https://vaadin.com/directory/component/vaadinvcf-tooltip) is a Web Component providing an easy way to display tooltips on any html element.
 
 ```html
-  <incubator-tooltip for="element-id" position="top">
+  <vcf-tooltip for="element-id" position="top">
     A short text describing the element.
-  </incubator-tooltip>
+  </vcf-tooltip>
 ```
 
-[<img src="https://raw.githubusercontent.com/vaadin/incubator-tooltip/master/screenshot.png" width="200" alt="Screenshot of incubator-tooltip">](https://vaadin.com/components/incubator-tooltip)
+[<img src="https://raw.githubusercontent.com/vaadin/vcf-tooltip/master/screenshot.png" width="200" alt="Screenshot of vcf-tooltip">](https://vaadin.com/components/vcf-tooltip)
 
 ## Installation
 
@@ -27,30 +27,30 @@ are only published on npm, not pushed to GitHub repositories.
 
 ### Polymer 2 and HTML Imports compatible version
 
-Install `incubator-tooltip`:
-incubator-tooltip
+Install `vcf-tooltip`:
+vcf-tooltip
 ```sh
-bower i vaadin/incubator-tooltip --save
+bower i vaadin/vcf-tooltip --save
 ```
 
 Once installed, import it in your application:
 
 ```html
-<link rel="import" href="bower_components/incubator-tooltip/incubator-tooltip.html">
+<link rel="import" href="bower_components/vcf-tooltip/vcf-tooltip.html">
 ```
 ### Polymer 3 and ES Modules compatible version
 
 
-Install `incubator-tooltip`:
-incubator-tooltip
+Install `vcf-tooltip`:
+vcf-tooltip
 ```sh
-npm i @vaadin/incubator-tooltip --save
+npm i @vaadin/vcf-tooltip --save
 ```
 
 Once installed, import it in your application:
 
 ```js
-import '@vaadin/incubator-tooltip/incubator-tooltip.js';
+import '@vaadin/vcf-tooltip/vcf-tooltip.js';
 ```
 
 ## Getting Started
@@ -59,39 +59,39 @@ Vaadin components use the Lumo theme by default.
 
 ## The file structure for Vaadin components
 
-- `src/incubator-tooltip.html`
-incubator-tooltip
+- `src/vcf-tooltip.html`
+vcf-tooltip
   Unstyled component.
 
-- `theme/lumo/incubator-tooltip.html`
-incubator-tooltip
+- `theme/lumo/vcf-tooltip.html`
+vcf-tooltip
   Component with Lumo theme.
 
-- `incubator-tooltip.html`
-incubator-tooltip
-  Alias for theme/lumo/incubator-tooltip.html
-incubator-tooltip
+- `vcf-tooltip.html`
+vcf-tooltip
+  Alias for theme/lumo/vcf-tooltip.html
+vcf-tooltip
 
 ## Running demos and tests in browser
 
-1. Fork the `incubator-tooltip` repository and clone it locally.
-incubator-tooltip
+1. Fork the `vcf-tooltip` repository and clone it locally.
+vcf-tooltip
 1. Make sure you have [npm](https://www.npmjs.com/) installed.
 
-1. When in the `incubator-tooltip` directory, run `npm install` and then `bower install` to install dependencies.
-incubator-tooltip
+1. When in the `vcf-tooltip` directory, run `npm install` and then `bower install` to install dependencies.
+vcf-tooltip
 1. Run `polymer serve --open`, browser will automatically open the component API documentation.
 
 1. You can also open demo or in-browser tests by adding **demo** or **test** to the URL, for example:
 
-  - http://127.0.0.1:8080/components/incubator-tooltip/demo
-  - http://127.0.0.1:8080/components/incubator-tooltip/test
-incubator-tooltip
+  - http://127.0.0.1:8080/components/vcf-tooltip/demo
+  - http://127.0.0.1:8080/components/vcf-tooltip/test
+vcf-tooltip
 
 ## Running tests from the command line
 
-1. When in the `incubator-tooltip` directory, run `polymer test`
-incubator-tooltip
+1. When in the `vcf-tooltip` directory, run `polymer test`
+vcf-tooltip
 
 ## Following the coding style
 
