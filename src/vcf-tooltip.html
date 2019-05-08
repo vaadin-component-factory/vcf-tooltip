@@ -6,9 +6,9 @@ This program is available under Commercial Vaadin Add-On License 3.0 (CVALv3).
 See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete license.
 -->
 
-<link rel="import" href="../../polymer/polymer-element.html">
-<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
-<link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
+<link rel="import" href="../../polymer/polymer-element.html" />
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html" />
+<link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html" />
 
 <dom-module id="vcf-tooltip">
   <template>
@@ -27,12 +27,12 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         cursor: default;
       }
 
-      [part="content"] {
+      [part='content'] {
         box-sizing: border-box;
         width: 100%;
       }
 
-      :host([hidden]) [part="content"] {
+      :host([hidden]) [part='content'] {
         display: none !important;
       }
 
@@ -151,7 +151,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
         }
 
-        _attachToTarget(newValue,oldValue) {
+        _attachToTarget(newValue, oldValue) {
           if (oldValue) {
             this._removeTargetEvents(oldValue);
           }
@@ -160,7 +160,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
           this._addEvents();
         }
-        
+
         _addEvents() {
           if (this.targetElement && !this.manual) {
             this.targetElement.addEventListener('mouseenter', this._boundShow);
@@ -197,13 +197,13 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           target.removeEventListener('blur', this._boundHide);
           target.removeEventListener('tap', this._boundHide);
         }
-        
-        _updateTarget(){
+
+        _updateTarget() {
           this.targetElement = this.parentNode.querySelector(`#${this.for}`);
         }
 
         _setPosition(targetElement, hidden, position) {
-          if (!targetElement|| hidden) {
+          if (!targetElement || hidden) {
             return;
           }
           const parentRect = this.offsetParent.getBoundingClientRect();
@@ -212,35 +212,57 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           const parentRectHeight = parentRect.height;
           const targetRect = this.targetElement.getBoundingClientRect();
           const thisRect = this.getBoundingClientRect();
-          const targetLeft = targetRect.left;
-          const targetTop = targetRect.top;
           const horizontalCenterOffset = (targetRect.width - thisRect.width) / 2;
           const verticalCenterOffset = (targetRect.height - thisRect.height) / 2;
+          let targetLeft = targetRect.left;
+          let targetTop = targetRect.top;
+          let pageYOffset = window.pageYOffset;
           let tooltipLeft, tooltipTop;
+
+          // Detect if the offsetParent is 'positioned'
+          if (window.getComputedStyle(this.offsetParent).position !== 'static') {
+            targetTop = this.targetElement.offsetTop;
+            targetLeft = this.targetElement.offsetLeft;
+            pageYOffset = 0;
+          }
 
           switch (position) {
             case 'top':
-              tooltipTop = targetTop - thisRect.height + window.pageYOffset;
+              tooltipTop = targetTop - thisRect.height + pageYOffset;
               tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
               break;
             case 'bottom':
-              tooltipTop = targetTop + targetRect.height + window.pageYOffset;
+              tooltipTop = targetTop + targetRect.height + pageYOffset;
               tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
               break;
             case 'left':
               tooltipLeft = targetLeft - thisRect.width;
-              tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset);
+              tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
               break;
             case 'right':
               tooltipLeft = targetLeft + targetRect.width;
-              tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset);
+              tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
               break;
           }
 
-          this._setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect);
+          this._setPositionInVisibleBounds(
+            parentRectHeight,
+            parentRectLeft,
+            parentRectTop,
+            tooltipLeft,
+            tooltipTop,
+            thisRect
+          );
         }
 
-        _setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect) {
+        _setPositionInVisibleBounds(
+          parentRectHeight,
+          parentRectLeft,
+          parentRectTop,
+          tooltipLeft,
+          tooltipTop,
+          thisRect
+        ) {
           // Check and fix horizontal position
           if (parentRectLeft + tooltipLeft + thisRect.width > window.innerWidth) {
             this.style.right = '0px';
@@ -270,14 +292,14 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
         }
 
-        _calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset) {
+        _calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset) {
           switch (this.align) {
             case 'top':
-              return targetTop + window.pageYOffset;
+              return targetTop + pageYOffset;
             case 'bottom':
-              return targetTop + targetRect.height - thisRect.height + window.pageYOffset;
+              return targetTop + targetRect.height - thisRect.height + pageYOffset;
             default:
-              return targetTop + verticalCenterOffset + window.pageYOffset;
+              return targetTop + verticalCenterOffset + pageYOffset;
           }
         }
 
