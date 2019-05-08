@@ -6,9 +6,9 @@ This program is available under Commercial Vaadin Add-On License 3.0 (CVALv3).
 See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete license.
 -->
 
-<link rel="import" href="../../polymer/polymer-element.html">
-<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html">
-<link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html">
+<link rel="import" href="../../polymer/polymer-element.html" />
+<link rel="import" href="../../vaadin-themable-mixin/vaadin-themable-mixin.html" />
+<link rel="import" href="../../vaadin-element-mixin/vaadin-element-mixin.html" />
 
 <dom-module id="vcf-tooltip">
   <template>
@@ -27,12 +27,12 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         cursor: default;
       }
 
-      [part="content"] {
+      [part='content'] {
         box-sizing: border-box;
         width: 100%;
       }
 
-      :host([hidden]) [part="content"] {
+      :host([hidden]) [part='content'] {
         display: none !important;
       }
 
@@ -151,7 +151,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
         }
 
-        _attachToTarget(newValue,oldValue) {
+        _attachToTarget(newValue, oldValue) {
           if (oldValue) {
             this._removeTargetEvents(oldValue);
           }
@@ -160,7 +160,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
           this._addEvents();
         }
-        
+
         _addEvents() {
           if (this.targetElement && !this.manual) {
             this.targetElement.addEventListener('mouseenter', this._boundShow);
@@ -197,13 +197,13 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           target.removeEventListener('blur', this._boundHide);
           target.removeEventListener('tap', this._boundHide);
         }
-        
-        _updateTarget(){
+
+        _updateTarget() {
           this.targetElement = this.parentNode.querySelector(`#${this.for}`);
         }
 
         _setPosition(targetElement, hidden, position) {
-          if (!targetElement|| hidden) {
+          if (!targetElement || hidden) {
             return;
           }
           const parentRect = this.offsetParent.getBoundingClientRect();
@@ -237,10 +237,24 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
               break;
           }
 
-          this._setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect);
+          this._setPositionInVisibleBounds(
+            parentRectHeight,
+            parentRectLeft,
+            parentRectTop,
+            tooltipLeft,
+            tooltipTop,
+            thisRect
+          );
         }
 
-        _setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect) {
+        _setPositionInVisibleBounds(
+          parentRectHeight,
+          parentRectLeft,
+          parentRectTop,
+          tooltipLeft,
+          tooltipTop,
+          thisRect
+        ) {
           // Check and fix horizontal position
           if (parentRectLeft + tooltipLeft + thisRect.width > window.innerWidth) {
             this.style.right = '0px';
