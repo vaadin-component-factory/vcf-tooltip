@@ -1,29 +1,161 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-  <title>vcf-tooltip Examples</title>
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
+    <title>vcf-tooltip demo</title>
+    <script dev src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script dev type="module" src="demo.js"></script>
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        .centered {
+          max-width: 1000px;
+        }
+        main {
+          opacity: 1;
+          transition: opacity 0.5s;
+        }
+        main.hidden {
+          opacity: 0;
+        }
+      </style>
+    </custom-style>
+    <script>
+      window.addEventListener('WebComponentsReady', () => document.querySelector('main').classList.remove('hidden'));
+    </script>
+  </head>
+  <body>
+    <main class="vertical-section-container centered hidden">
+      <h4><a href="api/#/elements/Vaadin.VcfTooltip">API documentation ↗</a></h4>
 
-  <link rel="import" href="../../polymer/polymer.html">
-  <link rel="import" href="../../vaadin-demo-helpers/vaadin-component-demo.html">
-  <link rel="import" href="../../vaadin-demo-helpers/vaadin-demo-snippet.html">
-  <link rel="import" href="../../vaadin-demo-helpers/vaadin-demo-ready-event-emitter.html">
+      <h3>Simple demo</h3>
+      <demo-snippet>
+        <template>
+          <h1 id="to-be-tooltiped">
+            This is a test title with tooltip.
+          </h1>
+          <vcf-tooltip for="to-be-tooltiped" position="top">
+            Some descriptive text about this title.
+          </vcf-tooltip>
+        </template>
+      </demo-snippet>
 
-  <script src="./vcf-tooltip-demo.js"></script>
+      <h3>Rich</h3>
+      <demo-snippet>
+        <template>
+          <style>
+            [part='tooltip-title'],
+            [part='tooltip-description'] {
+              text-align: left;
+              padding: 5px;
+              width: 100%;
+            }
 
-  <link rel="import" href="../vcf-tooltip.html">
-  <link rel="import" href="../../vaadin-button/vaadin-button.html">
-  <link rel="import" href="../../vaadin-icons/vaadin-icons.html">
-  <link rel="import" href="../../vaadin-lumo-styles/typography.html">
+            [part='tooltip-title'] {
+              border-radius: 5px;
+              background: var(--lumo-shade);
+            }
+          </style>
+          <input type="text" id="to-be-tooltiped" />
+          <vcf-tooltip for="to-be-tooltiped" position="right" align="top">
+            <div part="tooltip-title">Edit</div>
+            <div part="tooltip-description">
+              By pressing this button you are entitled to edit any element on the page.
+            </div>
+          </vcf-tooltip>
+        </template>
+      </demo-snippet>
 
-  <custom-style>
-    <style include="vaadin-component-demo-shared-styles"></style>
-  </custom-style>
-</head>
+      <h3>Manual Mode</h3>
+      <demo-snippet>
+        <template>
+          <vaadin-button id="demo-btn-1">
+            Tooltip will be shown after clicking on this
+          </vaadin-button>
+          <vcf-tooltip id="my-tooltip-1" for="demo-btn" position="right" align="bottom" manual>
+            A tooltip to remember.
+          </vcf-tooltip>
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const tooltipElement = document.querySelector('#my-tooltip-1');
+              const btn = document.querySelector('#demo-btn-1');
+              btn.addEventListener('click', () => {
+                if (tooltipElement.hidden) {
+                  tooltipElement.show();
+                } else {
+                  tooltipElement.hide();
+                }
+              });
+            });
+          </script>
+        </template>
+      </demo-snippet>
 
-<body>
-  <vaadin-component-demo config-src="demos.json"></vaadin-component-demo>
-</body>
+      <h3>Dynamic tooltip modifying "for" property</h3>
+      <p>
+        When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before
+        clicking on the button the tooltip is not set.
+      </p>
+      <demo-snippet>
+        <template>
+          <vaadin-button id="demo-btn1-1">
+            Button 1
+          </vaadin-button>
+          <vaadin-button id="demo-btn1-2">
+            Button 2
+          </vaadin-button>
+          <vaadin-button id="action-button-1">
+            Change Tooltip
+          </vaadin-button>
+          <vcf-tooltip id="my-tooltip-2" position="right" align="bottom">
+            A tooltip to remember.
+          </vcf-tooltip>
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const tooltipElement = document.querySelector('#my-tooltip-2');
+              const btn = document.querySelector('#action-button-1');
+              let i = 1;
+              btn.addEventListener('click', () => {
+                tooltipElement.for = 'demo-btn1-' + i;
+                i = i == 1 ? 2 : 1;
+              });
+            });
+          </script>
+        </template>
+      </demo-snippet>
+
+      <h3>Dynamic tooltip modifying targetElement property</h3>
+      <p>
+        When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before
+        clicking on the button the tooltip is not set.
+      </p>
+      <demo-snippet>
+        <template>
+          <vaadin-button id="demo-btn2-1">
+            Button 1
+          </vaadin-button>
+          <vaadin-button id="demo-btn2-2">
+            Button 2
+          </vaadin-button>
+          <vaadin-button id="action-button-2">
+            Change Tooltip
+          </vaadin-button>
+          <vcf-tooltip id="my-tooltip-3" position="right" align="bottom">
+            A tooltip to remember.
+          </vcf-tooltip>
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              const tooltipElement = document.querySelector('#my-tooltip-3');
+              const btn = document.querySelector('#action-button-2');
+              let i = 1;
+              btn.addEventListener('click', () => {
+                tooltipElement.targetElement = document.querySelector('#demo-btn2-' + i);
+                i = i == 1 ? 2 : 1;
+              });
+            });
+          </script>
+        </template>
+      </demo-snippet>
+    </main>
+  </body>
 </html>

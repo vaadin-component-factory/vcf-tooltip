@@ -1,3 +1,0 @@
-window.VaadinTooltipSuites = [
-  'sample.html',
-];

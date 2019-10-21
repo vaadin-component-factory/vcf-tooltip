@@ -1,3 +1,6 @@
-bower_components
-node_modules
+/node_modules/
+/bower_components/
+/dist/
+/build/
 package-lock.json
+analysis.json
