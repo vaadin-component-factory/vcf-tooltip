@@ -9,6 +9,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
+import '@vaadin/vaadin-license-checker/vaadin-license-checker';
 
 /**
  * `<vcf-tooltip>` Web Component providing an easy way to display tooltips for any html element.
@@ -119,6 +120,19 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         observer: '_attachToTarget'
       }
     };
+  }
+
+  /**
+   * @protected
+   */
+  static _finalizeClass() {
+    super._finalizeClass();
+
+    const devModeCallback = window.Vaadin.developmentModeCallback;
+    const licenseChecker = devModeCallback && devModeCallback['vaadin-license-checker'];
+    if (typeof licenseChecker === 'function') {
+      licenseChecker(VcfTooltip);
+    }
   }
 
   static get observers() {
@@ -309,7 +323,3 @@ customElements.define(VcfTooltip.is, VcfTooltip);
  * @namespace Vaadin
  */
 window.Vaadin.VcfTooltip = VcfTooltip;
-
-if (window.Vaadin.runIfDevelopmentMode) {
-  window.Vaadin.runIfDevelopmentMode('vaadin-license-checker', VcfTooltip);
-}
