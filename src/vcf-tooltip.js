@@ -10,6 +10,8 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
 import '@vaadin/vaadin-license-checker/vaadin-license-checker';
+import '@vaadin/vaadin-lumo-styles/icons';
+import '@polymer/iron-icon';
 
 /**
  * `<vcf-tooltip>` Web Component providing an easy way to display tooltips for any html element.
@@ -41,9 +43,31 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           cursor: default;
         }
 
+        :host([manual][close-button]) [part='close-button'] {
+          display: inline-block;
+        }
+        
+        :host([manual][close-button]) [part='container'] {
+          padding-left: calc(var(--lumo-tooltip-size) / 3);
+        }
+
+        [part='close-button'] {
+          display: none;
+          margin: 0;
+          padding: 0;
+        }
+
         [part='content'] {
           box-sizing: border-box;
           width: 100%;
+        }
+
+        [part='container'] {
+          display: flex;
+          padding: calc(var(--lumo-tooltip-size) / 6);
+          color: var(--lumo-body-text-color);
+          background-color: var(--lumo-base-color);
+          border-radius: var(--lumo-border-radius);
         }
 
         :host([hidden]) [part='content'] {
@@ -55,8 +79,14 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
       </style>
 
-      <div part="content" theme="dark">
-        <slot></slot>
+      <div part="container" theme="dark">
+        <div part="content">
+          <slot></slot>
+        </div>
+        <vaadin-button part="close-button" theme="icon tertiary" on-click="hide">
+          <iron-icon icon="lumo:cross"></iron-icon>
+        </vaadin-button>
+        </div>
       </div>
     `;
   }
@@ -66,7 +96,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.2.2';
+    return '1.3.0';
   }
 
   static get properties() {
@@ -118,6 +148,15 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       targetElement: {
         type: Object,
         observer: '_attachToTarget'
+      },
+
+      /**
+       * Show/hide tooltip close button if on manual mode.
+       */
+      closeButton: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
       }
     };
   }
@@ -150,26 +189,31 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     super.connectedCallback();
   }
 
+  ready() {
+    super.ready();
+    // Debounced re-position on window resize
+    window.addEventListener('resize', () => {
+      clearTimeout(this._resizeTimeout);
+      this._resizeTimeout = setTimeout(() => {
+        const { targetElement, hidden, position } = this;
+        if (!this.hidden) this._setPosition(targetElement, hidden, position);
+      }, 100);
+    });
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     this._detachFromTarget();
   }
 
   _manualObserver() {
-    if (this.manual) {
-      this._removeEvents();
-    } else {
-      this._addEvents();
-    }
+    if (this.manual) this._removeEvents();
+    else this._addEvents();
   }
 
-  _attachToTarget(newValue, oldValue) {
-    if (oldValue) {
-      this._removeTargetEvents(oldValue);
-    }
-    if (!this.targetElement) {
-      return;
-    }
+  _attachToTarget(_, oldValue) {
+    if (oldValue) this._removeTargetEvents(oldValue);
+    if (!this.targetElement) return;
     this._addEvents();
   }
 
@@ -189,15 +233,11 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _detachFromTarget() {
-    if (!this.manual) {
-      this._removeEvents();
-    }
+    if (!this.manual) this._removeEvents();
   }
 
   _removeEvents() {
-    if (this.targetElement) {
-      this._removeTargetEvents(this.targetElement);
-    }
+    if (this.targetElement) this._removeTargetEvents(this.targetElement);
     this.removeEventListener('mouseenter', this._boundShow);
     this.removeEventListener('mouseleave', this._boundHide);
   }
@@ -215,9 +255,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _setPosition(targetElement, hidden, position) {
-    if (!targetElement || hidden) {
-      return;
-    }
+    if (!targetElement || hidden) return;
     const parentRect = this.offsetParent.getBoundingClientRect();
     const parentRectTop = parentRect.top;
     const parentRectLeft = parentRect.left;

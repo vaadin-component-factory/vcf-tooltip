@@ -11,13 +11,16 @@
         .centered {
           max-width: 1000px;
         }
+
         main {
           opacity: 1;
           transition: opacity 0.5s;
         }
+
         main.hidden {
           opacity: 0;
         }
+
       </style>
     </custom-style>
     <script>
@@ -27,7 +30,6 @@
   <body>
     <main class="vertical-section-container centered hidden">
       <h4><a href="api/#/elements/Vaadin.VcfTooltip">API documentation ↗</a></h4>
-
       <h3>Simple demo</h3>
       <demo-snippet>
         <template>
@@ -39,7 +41,6 @@
           </vcf-tooltip>
         </template>
       </demo-snippet>
-
       <h3>Rich</h3>
       <demo-snippet>
         <template>
@@ -55,6 +56,7 @@
               border-radius: 5px;
               background: var(--lumo-shade);
             }
+
           </style>
           <input type="text" id="to-be-tooltiped" />
           <vcf-tooltip for="to-be-tooltiped" position="right" align="top">
@@ -65,14 +67,13 @@
           </vcf-tooltip>
         </template>
       </demo-snippet>
-
       <h3>Manual Mode</h3>
       <demo-snippet>
         <template>
           <vaadin-button id="demo-btn-1">
             Tooltip will be shown after clicking on this
           </vaadin-button>
-          <vcf-tooltip id="my-tooltip-1" for="demo-btn" position="right" align="bottom" manual>
+          <vcf-tooltip id="my-tooltip-1" for="demo-btn-1" position="right" align="bottom" manual close-button>
             A tooltip to remember.
           </vcf-tooltip>
           <script>
@@ -90,7 +91,6 @@
           </script>
         </template>
       </demo-snippet>
-
       <h3>Dynamic tooltip modifying "for" property</h3>
       <p>
         When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before
@@ -123,7 +123,6 @@
           </script>
         </template>
       </demo-snippet>
-
       <h3>Dynamic tooltip modifying targetElement property</h3>
       <p>
         When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before

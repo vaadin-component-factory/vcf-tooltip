@@ -20,13 +20,6 @@ registerStyles(
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-    [part='content'] {
-      padding: calc(var(--lumo-tooltip-size) / 6);
-      color: var(--lumo-body-text-color);
-      background-color: var(--lumo-base-color);
-      border-radius: var(--lumo-border-radius);
-    }
   `,
   {
     include: ['lumo-color', 'lumo-typography']
