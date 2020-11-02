@@ -97,7 +97,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.3.2';
+    return '1.3.3';
   }
 
   static get properties() {
