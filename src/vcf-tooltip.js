@@ -48,12 +48,15 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
         :host([manual][close-button]) [part='container'] {
           padding-left: calc(var(--lumo-tooltip-size) / 3);
+          padding-right: 0;
         }
 
         [part='close-button'] {
           display: none;
           margin: 0;
           padding: 0;
+          margin-top: calc(-1 * var(--lumo-tooltip-size) / 6);
+          cursor: pointer;
         }
 
         [part='content'] {
@@ -82,7 +85,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         <div part="content">
           <slot></slot>
         </div>
-        <vaadin-button part="close-button" theme="icon tertiary" on-click="hide">
+        <vaadin-button part="close-button" theme="icon tertiary small" on-click="hide">
           <iron-icon icon="lumo:cross"></iron-icon>
         </vaadin-button>
       </div>
@@ -193,9 +196,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       }, 100);
     });
     // Set default theme
-    if (!this.getAttribute('theme')) {
-      this.setAttribute('theme', 'dark');
-    }
+    if (!this.getAttribute('theme')) this.setAttribute('theme', 'dark');
   }
 
   disconnectedCallback() {
