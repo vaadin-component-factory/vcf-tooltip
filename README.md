@@ -51,10 +51,6 @@ Add `<vcf-tooltip>` element with attribute `for` which will contain id of target
 
 To contribute to the component, please read [the guideline](https://github.com/vaadin/vaadin-core/blob/master/CONTRIBUTING.md) first.
 
-## Vaadin Prime
-
-This component is available in the Vaadin Prime subscription. It is still open source, but you need to have a valid CVAL license in order to use it. Read more at: https://vaadin.com/pricing
-
 ## License
 
 Apache License 2.0
