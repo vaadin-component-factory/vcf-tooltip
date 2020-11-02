@@ -9,7 +9,6 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
-import '@vaadin/vaadin-license-checker/vaadin-license-checker';
 import '@vaadin/vaadin-lumo-styles/icons';
 import '@polymer/iron-icon';
 
@@ -46,7 +45,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         :host([manual][close-button]) [part='close-button'] {
           display: inline-block;
         }
-        
+
         :host([manual][close-button]) [part='container'] {
           padding-left: calc(var(--lumo-tooltip-size) / 3);
         }
@@ -79,14 +78,13 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         }
       </style>
 
-      <div part="container" theme="dark">
+      <div part="container" theme$="[[theme]]">
         <div part="content">
           <slot></slot>
         </div>
         <vaadin-button part="close-button" theme="icon tertiary" on-click="hide">
           <iron-icon icon="lumo:cross"></iron-icon>
         </vaadin-button>
-        </div>
       </div>
     `;
   }
@@ -157,21 +155,16 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         type: Boolean,
         value: false,
         reflectToAttribute: true
+      },
+
+      /**
+       * Set tooltip theme.
+       */
+      theme: {
+        type: String,
+        reflectToAttribute: true
       }
     };
-  }
-
-  /**
-   * @protected
-   */
-  static _finalizeClass() {
-    super._finalizeClass();
-
-    const devModeCallback = window.Vaadin.developmentModeCallback;
-    const licenseChecker = devModeCallback && devModeCallback['vaadin-license-checker'];
-    if (typeof licenseChecker === 'function') {
-      licenseChecker(VcfTooltip);
-    }
   }
 
   static get observers() {
@@ -199,6 +192,10 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         if (!this.hidden) this._setPosition(targetElement, hidden, position);
       }, 100);
     });
+    // Set default theme
+    if (!this.getAttribute('theme')) {
+      this.setAttribute('theme', 'dark');
+    }
   }
 
   disconnectedCallback() {
