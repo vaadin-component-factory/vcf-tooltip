@@ -104,9 +104,6 @@ We are using [ESLint](http://eslint.org/) for linting JavaScript code. You can c
   - [Submit a pull request](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) with detailed title and description
   - Wait for response from one of Vaadin components team members
 
-# Vaadin Prime
-This component is available in Vaadin Prime subscription. It is still open source, but you need to have a valid CVAL license in order to use it. Read more at: https://vaadin.com/pricing
-
 # License
 
 Commercial Vaadin Add-on License version 3 (CVALv3). For license terms, see LICENSE.
