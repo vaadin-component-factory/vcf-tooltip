@@ -70,6 +70,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           color: var(--lumo-body-text-color);
           background-color: var(--lumo-base-color);
           border-radius: var(--lumo-border-radius);
+          border: 1px solid var(--lumo-contrast-20pct);
         }
 
         :host([hidden]) [part='content'] {
