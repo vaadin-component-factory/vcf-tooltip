@@ -98,7 +98,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.3.4';
+    return '1.3.5';
   }
 
   static get properties() {
@@ -132,7 +132,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       hidden: {
         type: Boolean,
         value: true,
-        notify: true;
+        notify: true,
         reflectToAttribute: true
       },
 
