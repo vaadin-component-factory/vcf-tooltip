@@ -132,6 +132,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       hidden: {
         type: Boolean,
         value: true,
+        notify: true;
         reflectToAttribute: true
       },
 
