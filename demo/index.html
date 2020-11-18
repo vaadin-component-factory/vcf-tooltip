@@ -1,161 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="hidden">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
     <title>vcf-tooltip demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
     <script dev src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
     <script dev type="module" src="demo.js"></script>
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-        .centered {
-          max-width: 1000px;
-        }
-
-        main {
+      <style is="custom-style" include="demo-pages-shared-styles lumo-typography">
+        html {
           opacity: 1;
           transition: opacity 0.5s;
         }
 
-        main.hidden {
+        body {
+          background-color: var(--lumo-base-color);
+          padding: 0;
+        }
+
+        h1 {
+          padding: 0 0 var(--lumo-space-l) var(--lumo-space-m);
+        }
+
+        h2 {
+          padding: var(--lumo-space-l) 0 var(--lumo-space-l) var(--lumo-space-m);
+        }
+
+        vcf-anchor-nav {
+          --anchor-nav-inner-max-width: 1000px;
+        }
+
+        vcf-anchor-nav::part(tabs) {
+          box-shadow: inset 0 -1px 0 0 var(--lumo-contrast-20pct);
+        }
+
+        vcf-anchor-nav-section {
+          height: auto;
+          background-color: var(--lumo-base-color);
+        }
+
+        vaadin-button.nav {
+          cursor: pointer;
+        }
+
+        .hidden {
           opacity: 0;
+        }
+
+        .centered {
+          max-width: 1000px;
+        }
+
+        .nav {
+          margin: var(--lumo-space-l) var(--lumo-space-m) var(--lumo-space-l) calc(var(--lumo-button-size) * -1 / 6);
+        }
+
+        code:not(.main) {
+          display: inline-block;
+          padding: 2px 4px;
+          background: var(--lumo-shade-10pct);
+          border-radius: var(--lumo-border-radius);
+        }
+
+      </style>
+      <style id="codeContainerStyles">
+        .code-container {
+          overflow-x: hidden;
+          overflow-y: scroll;
+        }
+
+        code:not(.main) {
+          font-family: 'Fira Code', monospace;
+        }
+
+        #copyButton {
+          display: none;
+        }
+
+        #copyVaadinButton {
+          position: absolute;
+          margin: 0;
+          top: -1px;
+          right: -1px;
+          text-transform: uppercase;
+          border: none;
+          border-radius: 0;
+          border-bottom-left-radius: var(--lumo-border-radius);
+          cursor: pointer;
+          background: #e0e0e0;
+          color: #333;
+          font-size: 12px;
+        }
+
+        .overflow:not(.top) {
+          box-shadow: inset 0 8px 10px -15px #000;
+        }
+
+        .overflow:not(.top):not(.bottom) {
+          box-shadow: inset 0 8px 10px -15px #000, inset 0 -12px 15px -20px #000;
+        }
+
+        .overflow:not(.bottom) {
+          box-shadow: inset 0 -12px 15px -20px #000;
         }
 
       </style>
     </custom-style>
-    <script>
-      window.addEventListener('WebComponentsReady', () => document.querySelector('main').classList.remove('hidden'));
-    </script>
   </head>
   <body>
-    <main class="vertical-section-container centered hidden">
-      <h4><a href="api/#/elements/Vaadin.VcfTooltip">API documentation ↗</a></h4>
-      <h3>Simple demo</h3>
-      <demo-snippet>
-        <template>
-          <h1 id="to-be-tooltiped">
-            This is a test title with tooltip.
-          </h1>
-          <vcf-tooltip for="to-be-tooltiped" position="top">
-            Some descriptive text about this title.
-          </vcf-tooltip>
-        </template>
-      </demo-snippet>
-      <h3>Rich</h3>
-      <demo-snippet>
-        <template>
-          <style>
-            [part='tooltip-title'],
-            [part='tooltip-description'] {
-              text-align: left;
-              padding: 5px;
-              width: 100%;
-            }
+    <vcf-anchor-nav fullscreen theme="expand-last">
+      <a slot="header" href="/api/#/elements/Vaadin.VcfTooltip">
+        <vaadin-button theme="tertiary" class="nav">
+          <iron-icon icon="lumo:angle-right" slot="suffix"></iron-icon>
+          API
+        </vaadin-button>
+      </a>
+      <h1 slot="header"><code class="main">&lt;vcf-tooltip&gt;</code></h1>
+      <vcf-anchor-nav-section name="Basic">
+        <h2 slot="header">Basic</h2>
+        <demo-snippet>
+          <template>
+            <h1 id="basic-title">
+              This is a test title with tooltip.
+            </h1>
+            <vcf-tooltip for="basic-title" position="top" align="left">
+              Some descriptive text about this title.
+            </vcf-tooltip>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+      <vcf-anchor-nav-section name="Rich">
+        <h2 slot="header">Rich</h2>
+        <demo-snippet>
+          <template>
+            <style>
+              [part='tooltip-title'],
+              [part='tooltip-description'] {
+                text-align: left;
+                padding: 5px;
+                width: 100%;
+              }
 
-            [part='tooltip-title'] {
-              border-radius: 5px;
-              background: var(--lumo-shade);
-            }
+              [part='tooltip-title'] {
+                border-radius: 5px;
+                background: var(--lumo-shade);
+              }
 
-          </style>
-          <input type="text" id="to-be-tooltiped" />
-          <vcf-tooltip for="to-be-tooltiped" position="right" align="top">
-            <div part="tooltip-title">Edit</div>
-            <div part="tooltip-description">
-              By pressing this button you are entitled to edit any element on the page.
-            </div>
-          </vcf-tooltip>
-        </template>
-      </demo-snippet>
-      <h3>Manual Mode</h3>
-      <demo-snippet>
-        <template>
-          <vaadin-button id="demo-btn-1">
-            Tooltip will be shown after clicking on this
-          </vaadin-button>
-          <vcf-tooltip id="my-tooltip-1" for="demo-btn-1" position="right" align="bottom" manual close-button>
-            A tooltip to remember. <br />
-            To close the tooltip click the <strong>x</strong> in the top right corner.
-          </vcf-tooltip>
-          <script>
-            window.addEventListener('WebComponentsReady', () => {
-              const tooltipElement = document.querySelector('#my-tooltip-1');
-              const btn = document.querySelector('#demo-btn-1');
-              btn.addEventListener('click', () => {
-                if (tooltipElement.hidden) {
-                  tooltipElement.show();
-                } else {
-                  tooltipElement.hide();
-                }
+            </style>
+            <input type="text" id="rich-text-field" value="Text" />
+            <vcf-tooltip for="rich-text-field" position="bottom" align="left" close-button>
+              <div part="tooltip-title">Edit</div>
+              <div part="tooltip-description">
+                You are entitled to edit any text in this field.
+              </div>
+            </vcf-tooltip>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+      <vcf-anchor-nav-section name="Manual Mode">
+        <h2 slot="header">Manual Mode</h2>
+        <demo-snippet>
+          <template>
+            <vaadin-button id="manual-mode-btn">
+              Toggle tooltip <code>hidden</code>
+            </vaadin-button>
+            <vcf-tooltip id="manual-mode-tooltip" for="manual-mode-btn" position="right" manual close-button>
+              A tooltip to remember. <br />
+              To close the tooltip click the <strong>x</strong> in the top right corner.
+            </vcf-tooltip>
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const tooltipElement = document.querySelector('#manual-mode-tooltip');
+                const btn = document.querySelector('#manual-mode-btn');
+                btn.addEventListener('click', () => {
+                  if (tooltipElement.hidden) tooltipElement.show();
+                  else tooltipElement.hide();
+                });
               });
-            });
-          </script>
-        </template>
-      </demo-snippet>
-      <h3>Dynamic tooltip modifying "for" property</h3>
-      <p>
-        When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before
-        clicking on the button the tooltip is not set.
-      </p>
-      <demo-snippet>
-        <template>
-          <vaadin-button id="demo-btn1-1">
-            Button 1
-          </vaadin-button>
-          <vaadin-button id="demo-btn1-2">
-            Button 2
-          </vaadin-button>
-          <vaadin-button id="action-button-1">
-            Change Tooltip
-          </vaadin-button>
-          <vcf-tooltip id="my-tooltip-2" position="right" align="bottom">
-            A tooltip to remember.
-          </vcf-tooltip>
-          <script>
-            window.addEventListener('WebComponentsReady', () => {
-              const tooltipElement = document.querySelector('#my-tooltip-2');
-              const btn = document.querySelector('#action-button-1');
-              let i = 1;
-              btn.addEventListener('click', () => {
-                tooltipElement.for = 'demo-btn1-' + i;
-                i = i == 1 ? 2 : 1;
+            </script>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+      <vcf-anchor-nav-section name="Dynamic For">
+        <h2 slot="header">Dynamic Tooltip <code>for</code></h2>
+        <p>When the "Change Tooltip" button is clicked, the tooltip target element changes from one button to the other.</p>
+        <demo-snippet>
+          <template>
+            <vaadin-button id="dynamic-for-btn1">
+              Button 1
+            </vaadin-button>
+            <vaadin-button id="dynamic-for-btn2">
+              Button 2
+            </vaadin-button>
+            <vaadin-button id="dynamic-for-btn3">
+              Change Tooltip
+            </vaadin-button>
+            <vcf-tooltip id="dynamic-for-tooltip" for="dynamic-for-btn1" position="right" close-button>
+              A tooltip to remember.
+            </vcf-tooltip>
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const tooltipElement = document.querySelector('#dynamic-for-tooltip');
+                const btn = document.querySelector('#dynamic-for-btn3');
+                btn.addEventListener('click', () => {
+                  const btnIndex = tooltipElement.targetElement.id.replace('dynamic-for-btn', '');
+                  const newBtnIndex = btnIndex === '1' ? '2' : '1';
+                  tooltipElement.for = `dynamic-for-btn${newBtnIndex}`;
+                });
               });
-            });
-          </script>
-        </template>
-      </demo-snippet>
-      <h3>Dynamic tooltip modifying targetElement property</h3>
-      <p>
-        When the "Change Tooltip" button is clicked, the tooltip changes from one button to the other one. Before
-        clicking on the button the tooltip is not set.
-      </p>
-      <demo-snippet>
-        <template>
-          <vaadin-button id="demo-btn2-1">
-            Button 1
-          </vaadin-button>
-          <vaadin-button id="demo-btn2-2">
-            Button 2
-          </vaadin-button>
-          <vaadin-button id="action-button-2">
-            Change Tooltip
-          </vaadin-button>
-          <vcf-tooltip id="my-tooltip-3" position="right" align="bottom">
-            A tooltip to remember.
-          </vcf-tooltip>
-          <script>
-            window.addEventListener('WebComponentsReady', () => {
-              const tooltipElement = document.querySelector('#my-tooltip-3');
-              const btn = document.querySelector('#action-button-2');
-              let i = 1;
-              btn.addEventListener('click', () => {
-                tooltipElement.targetElement = document.querySelector('#demo-btn2-' + i);
-                i = i == 1 ? 2 : 1;
+            </script>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+      <vcf-anchor-nav-section name="Dynamic Target Element">
+        <h2 slot="header">Dynamic Tooltip <code>targetElement</code></h2>
+        <p>When the "Change Tooltip" button is clicked, the tooltip target element changes from one button to the other.</p>
+        <demo-snippet>
+          <template>
+            <vaadin-button id="dynamic-target-btn1">
+              Button 1
+            </vaadin-button>
+            <vaadin-button id="dynamic-target-btn2">
+              Button 2
+            </vaadin-button>
+            <vaadin-button id="dynamic-target-btn3">
+              Change Tooltip
+            </vaadin-button>
+            <vcf-tooltip id="dynamic-target-tooltip" position="right" close-button>
+              A tooltip to remember.
+            </vcf-tooltip>
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const tooltipElement = document.querySelector('#dynamic-target-tooltip');
+                const btn = document.querySelector('#dynamic-target-btn3');
+                tooltipElement.targetElement = document.querySelector(`#dynamic-target-btn1`);
+                btn.addEventListener('click', () => {
+                  const btnIndex = tooltipElement.targetElement.id.replace('dynamic-target-btn', '');
+                  const newBtnIndex = btnIndex === '1' ? '2' : '1';
+                  tooltipElement.targetElement = document.querySelector(`#dynamic-target-btn${newBtnIndex}`);
+                });
               });
-            });
-          </script>
-        </template>
-      </demo-snippet>
-    </main>
+            </script>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+    </vcf-anchor-nav>
   </body>
 </html>

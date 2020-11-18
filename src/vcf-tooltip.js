@@ -1,23 +1,35 @@
-/**
- * @license
- * Copyright (C) 2015 Vaadin Ltd.
- * This program is available under Commercial Vaadin Add-On License 3.0 (CVALv3).
- * See the file LICENSE.md distributed with this software for more information about licensing.
- * See [the website]{@link https://vaadin.com/license/cval-3} for the complete license.
- */
-
 import { html, PolymerElement } from '@polymer/polymer/polymer-element';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/vaadin-element-mixin';
 import '@vaadin/vaadin-lumo-styles/icons';
 import '@polymer/iron-icon';
+import './vcf-tooltip-styles';
 
 /**
  * `<vcf-tooltip>` Web Component providing an easy way to display tooltips for any html element.
  *
  * ```html
- * <vcf-tooltip></vcf-tooltip>
+ * <vcf-tooltip for="element-id" position="top">
+ *   A short text describing the element.
+ * </vcf-tooltip>
  * ```
+ *
+ * ### Styling
+ *
+ * The following parts are available for styling:
+ *
+ * Part name | Description
+ * --|--
+ * `container` | Container for content and close button
+ * `content` | Tooltip content
+ * `close-button` | Tooltip close button
+ *
+ * The following themes are available:
+ *
+ * Theme name | Description
+ * --|--
+ * `dark` (default) | Lumo dark theme
+ * `light` | Lumo light theme
  *
  * @memberof Vaadin
  * @mixes ElementMixin
@@ -40,14 +52,14 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           -webkit-user-select: none;
           user-select: none;
           cursor: default;
+          box-shadow: var(--lumo-box-shadow-xs);
         }
 
-        :host([manual][close-button]) [part='close-button'] {
+        :host([close-button]) [part='close-button'] {
           display: inline-block;
         }
 
-        :host([manual][close-button]) [part='container'] {
-          padding-left: calc(var(--lumo-tooltip-size) / 3);
+        :host([close-button]) [part='container'] {
           padding-right: 0;
         }
 
@@ -66,7 +78,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
         [part='container'] {
           display: flex;
-          padding: calc(var(--lumo-tooltip-size) / 6);
+          padding: calc(var(--lumo-tooltip-size) / 6) calc(var(--lumo-tooltip-size) / 4);
           color: var(--lumo-body-text-color);
           background-color: var(--lumo-base-color);
           border-radius: var(--lumo-border-radius);
@@ -86,7 +98,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         <div part="content">
           <slot></slot>
         </div>
-        <vaadin-button part="close-button" theme="icon tertiary small" on-click="hide">
+        <vaadin-button part="close-button" theme="icon tertiary small" on-click="hide" title="Close tooltip">
           <iron-icon icon="lumo:cross"></iron-icon>
         </vaadin-button>
       </div>
@@ -133,7 +145,8 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
         type: Boolean,
         value: true,
         notify: true,
-        reflectToAttribute: true
+        reflectToAttribute: true,
+        observer: '_hiddenChanged'
       },
 
       /**
@@ -180,6 +193,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     super();
     this._boundShow = this.show.bind(this);
     this._boundHide = this.hide.bind(this);
+    this._setDefaultId();
   }
 
   connectedCallback() {
@@ -211,10 +225,19 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     else this._addEvents();
   }
 
-  _attachToTarget(_, oldValue) {
-    if (oldValue) this._removeTargetEvents(oldValue);
-    if (!this.targetElement) return;
-    this._addEvents();
+  _attachToTarget(targetElement, oldTargetElement) {
+    if (oldTargetElement) {
+      this._removeTargetEvents(oldTargetElement);
+      if (oldTargetElement.describedby) oldTargetElement.removeAttribute('aria-describedby');
+    }
+    if (targetElement) {
+      this._addEvents();
+      const describedby = targetElement.getAttribute('aria-describedby');
+      if (!describedby) {
+        targetElement.describedby = true;
+        targetElement.setAttribute('aria-describedby', this.id);
+      }
+    }
   }
 
   _addEvents() {
@@ -234,6 +257,10 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _detachFromTarget() {
     if (!this.manual) this._removeEvents();
+    if (this.targetElement.describedby) {
+      this.targetElement.removeAttribute('aria-describedby');
+      delete this.targetElement.describedby;
+    }
   }
 
   _removeEvents() {
@@ -255,54 +282,55 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _setPosition(targetElement, hidden, position) {
-    if (!targetElement || hidden) return;
-    const parentRect = this.offsetParent.getBoundingClientRect();
-    const parentRectTop = parentRect.top;
-    const parentRectLeft = parentRect.left;
-    const parentRectHeight = parentRect.height;
-    const targetRect = this.targetElement.getBoundingClientRect();
-    const thisRect = this.getBoundingClientRect();
-    const horizontalCenterOffset = (targetRect.width - thisRect.width) / 2;
-    const verticalCenterOffset = (targetRect.height - thisRect.height) / 2;
-    let targetLeft = targetRect.left;
-    let targetTop = targetRect.top;
-    let pageYOffset = window.pageYOffset;
-    let tooltipLeft, tooltipTop;
+    if (targetElement && !hidden) {
+      const parentRect = this.offsetParent.getBoundingClientRect();
+      const parentRectTop = parentRect.top;
+      const parentRectLeft = parentRect.left;
+      const parentRectHeight = parentRect.height;
+      const targetRect = this.targetElement.getBoundingClientRect();
+      const thisRect = this.getBoundingClientRect();
+      const horizontalCenterOffset = (targetRect.width - thisRect.width) / 2;
+      const verticalCenterOffset = (targetRect.height - thisRect.height) / 2;
+      let targetLeft = targetRect.left;
+      let targetTop = targetRect.top;
+      let pageYOffset = window.pageYOffset;
+      let tooltipLeft, tooltipTop;
 
-    // Detect if the offsetParent is 'positioned'
-    if (window.getComputedStyle(this.offsetParent).position !== 'static') {
-      targetTop = this.targetElement.offsetTop;
-      targetLeft = this.targetElement.offsetLeft;
-      pageYOffset = 0;
+      // Detect if the offsetParent is 'positioned'
+      if (window.getComputedStyle(this.offsetParent).position !== 'static') {
+        targetTop = this.targetElement.offsetTop;
+        targetLeft = this.targetElement.offsetLeft;
+        pageYOffset = 0;
+      }
+
+      switch (position) {
+        case 'top':
+          tooltipTop = targetTop - thisRect.height + pageYOffset;
+          tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
+          break;
+        case 'bottom':
+          tooltipTop = targetTop + targetRect.height + pageYOffset;
+          tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
+          break;
+        case 'left':
+          tooltipLeft = targetLeft - thisRect.width;
+          tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
+          break;
+        case 'right':
+          tooltipLeft = targetLeft + targetRect.width;
+          tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
+          break;
+      }
+
+      this._setPositionInVisibleBounds(
+        parentRectHeight,
+        parentRectLeft,
+        parentRectTop,
+        tooltipLeft,
+        tooltipTop,
+        thisRect
+      );
     }
-
-    switch (position) {
-      case 'top':
-        tooltipTop = targetTop - thisRect.height + pageYOffset;
-        tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
-        break;
-      case 'bottom':
-        tooltipTop = targetTop + targetRect.height + pageYOffset;
-        tooltipLeft = this._calculateLeft(targetLeft, targetRect, thisRect, horizontalCenterOffset);
-        break;
-      case 'left':
-        tooltipLeft = targetLeft - thisRect.width;
-        tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
-        break;
-      case 'right':
-        tooltipLeft = targetLeft + targetRect.width;
-        tooltipTop = this._calculateTop(targetTop, targetRect, thisRect, verticalCenterOffset, pageYOffset);
-        break;
-    }
-
-    this._setPositionInVisibleBounds(
-      parentRectHeight,
-      parentRectLeft,
-      parentRectTop,
-      tooltipLeft,
-      tooltipTop,
-      thisRect
-    );
   }
 
   _setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect) {
@@ -315,7 +343,8 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.style.right = 'auto';
     }
     // Check and fix vertical position
-    if (parentRectTop + tooltipTop + thisRect.height > window.innerHeight) {
+    const parentHeight = this.offsetParent ? this.offsetParent.scrollHeight : window.innerHeight;
+    if (parentRectTop + tooltipTop + thisRect.height > parentHeight) {
       this.style.bottom = parentRectHeight + 'px';
       this.style.top = 'auto';
     } else {
@@ -352,6 +381,18 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   hide() {
     this.hidden = true;
+  }
+
+  _hiddenChanged(hidden) {
+    if (hidden) this.setAttribute('aria-hidden', true);
+    else this.setAttribute('aria-hidden', false);
+  }
+
+  _setDefaultId() {
+    if (!this.id) {
+      if (!Vaadin.tooltipIndex) Vaadin.tooltipIndex = 0;
+      this.id = `vcf-tooltip${++Vaadin.tooltipIndex}`;
+    }
   }
 }
 
