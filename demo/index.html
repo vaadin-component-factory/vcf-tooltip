@@ -206,7 +206,7 @@
                 btn.addEventListener('click', () => {
                   const btnIndex = tooltipElement.targetElement.id.replace('dynamic-for-btn', '');
                   const newBtnIndex = btnIndex === '1' ? '2' : '1';
-                  tooltipElement.for = `dynamic-for-btn${newBtnIndex}`;
+                  tooltipElement.for = 'dynamic-for-btn' + newBtnIndex;
                 });
               });
             </script>
@@ -238,7 +238,7 @@
                 btn.addEventListener('click', () => {
                   const btnIndex = tooltipElement.targetElement.id.replace('dynamic-target-btn', '');
                   const newBtnIndex = btnIndex === '1' ? '2' : '1';
-                  tooltipElement.targetElement = document.querySelector(`#dynamic-target-btn${newBtnIndex}`);
+                  tooltipElement.targetElement = document.querySelector('#dynamic-target-btn' + newBtnIndex);
                 });
               });
             </script>
