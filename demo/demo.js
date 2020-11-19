@@ -18,6 +18,7 @@ window.addEventListener('WebComponentsReady', () => {
     const copyVaadinButton = document.createElement('vaadin-button');
     const copyIcon = document.createElement('iron-icon');
     // Copy <vaadin-button>
+    codeContainer.appendChild(copyVaadinButton);
     copyVaadinButton.id = 'copyVaadinButton';
     copyVaadinButton.setAttribute('theme', 'icon');
     copyVaadinButton.setAttribute('title', 'Copy to clipboard');
