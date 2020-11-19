@@ -402,7 +402,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   _setDefaultId() {
     if (!this.id) {
       if (!Vaadin.tooltipIndex) Vaadin.tooltipIndex = 0;
-      this.id = `vcf-tooltip${++Vaadin.tooltipIndex}`;
+      this.id = 'vcf-tooltip' + ++Vaadin.tooltipIndex;
     }
   }
 }
