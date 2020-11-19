@@ -110,7 +110,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.3.9';
+    return '1.3.10';
   }
 
   static get properties() {
@@ -167,7 +167,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       },
 
       /**
-       * Show/hide tooltip close button if on manual mode.
+       * Show/hide tooltip close button.
        */
       closeButton: {
         type: Boolean,
