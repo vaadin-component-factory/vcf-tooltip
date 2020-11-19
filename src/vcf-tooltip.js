@@ -256,13 +256,6 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.addEventListener('mouseenter', this._boundShow);
       this.addEventListener('mouseleave', this._boundHide);
     }
-
-    window.addEventListener('keyup', this._boundOnKeyup);
-  }
-
-  _onKeyup(e) {
-    // Hide on Escape key press
-    if (e.keyCode === 27) this.hide();
   }
 
   _detachFromTarget() {
@@ -277,7 +270,6 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     if (this.targetElement) this._removeTargetEvents(this.targetElement);
     this.removeEventListener('mouseenter', this._boundShow);
     this.removeEventListener('mouseleave', this._boundHide);
-    window.removeEventListener('keyup', this._boundOnKeyup);
   }
 
   _removeTargetEvents(target) {
@@ -395,8 +387,18 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _hiddenChanged(hidden) {
-    if (hidden) this.setAttribute('aria-hidden', true);
-    else this.setAttribute('aria-hidden', false);
+    if (hidden) {
+      this.setAttribute('aria-hidden', true);
+      window.removeEventListener('keyup', this._boundOnKeyup);
+    } else {
+      this.setAttribute('aria-hidden', false);
+      window.addEventListener('keyup', this._boundOnKeyup);
+    }
+  }
+
+  _onKeyup(e) {
+    // Hide on Escape key press
+    if (e.keyCode === 27) this.hide();
   }
 
   _setDefaultId() {

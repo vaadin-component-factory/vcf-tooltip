@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="hidden">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
@@ -9,7 +9,7 @@
     <script dev type="module" src="demo.js"></script>
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles lumo-typography">
-        html {
+        body {
           opacity: 1;
           transition: opacity 0.5s;
         }
@@ -44,7 +44,8 @@
           cursor: pointer;
         }
 
-        .hidden {
+        .hidden,
+        .hidden * {
           opacity: 0;
         }
 
@@ -109,7 +110,7 @@
     </custom-style>
   </head>
   <body>
-    <vcf-anchor-nav fullscreen theme="expand-last">
+    <vcf-anchor-nav fullscreen theme="expand-last" class="hidden">
       <a slot="header" href="/api/#/elements/Vaadin.VcfTooltip">
         <vaadin-button theme="tertiary" class="nav">
           <iron-icon icon="lumo:angle-right" slot="suffix"></iron-icon>
