@@ -194,12 +194,12 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     this._boundShow = this.show.bind(this);
     this._boundHide = this.hide.bind(this);
     this._boundOnKeyup = this._onKeyup.bind(this);
-    this._setDefaultId();
   }
 
   connectedCallback() {
-    this._attachToTarget();
     super.connectedCallback();
+    this._attachToTarget();
+    this._setDefaultId();
   }
 
   ready() {
