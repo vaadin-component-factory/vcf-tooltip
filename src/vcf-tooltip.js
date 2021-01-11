@@ -260,7 +260,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _detachFromTarget() {
     if (!this.manual) this._removeEvents();
-    if (this.targetElement.describedby) {
+    if (this.targetElement && this.targetElement.describedby) {
       this.targetElement.removeAttribute('aria-describedby');
       delete this.targetElement.describedby;
     }
@@ -299,8 +299,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       let pageYOffset = window.pageYOffset;
       let tooltipLeft, tooltipTop;
 
-      // Detect if the offsetParent is 'positioned'
-      if (window.getComputedStyle(this.offsetParent).position !== 'static') {
+      if (this._parentPostioned) {
         targetTop = this.targetElement.offsetTop;
         targetLeft = this.targetElement.offsetLeft;
         pageYOffset = 0;
@@ -325,15 +324,13 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           break;
       }
 
-      this._setPositionInVisibleBounds(
-        parentRectHeight,
-        parentRectLeft,
-        parentRectTop,
-        tooltipLeft,
-        tooltipTop,
-        thisRect
-      );
+      this._setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect);
     }
+  }
+
+  // Detct if the offset parent is [positoned](https://developer.mozilla.org/en-US/docs/Web/CSS/position#types_of_positioning)
+  get _parentPostioned() {
+    return window.getComputedStyle(this.offsetParent).position !== 'static';
   }
 
   _setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect) {
@@ -346,7 +343,8 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.style.right = 'auto';
     }
     // Check and fix vertical position
-    const parentHeight = this.offsetParent ? this.offsetParent.scrollHeight : window.innerHeight;
+    let parentHeight = window.innerHeight;
+    if (this.offsetParent && this.offsetParent.scrollHeight > window.innerHeight) parentHeight = this.offsetParent.scrollHeight;
     if (parentRectTop + tooltipTop + thisRect.height > parentHeight) {
       this.style.bottom = parentRectHeight + 'px';
       this.style.top = 'auto';

@@ -172,11 +172,11 @@
             </vcf-tooltip>
             <script>
               window.addEventListener('WebComponentsReady', () => {
-                const tooltipElement = document.querySelector('#manual-mode-tooltip');
+                const tooltip = document.querySelector('#manual-mode-tooltip');
                 const btn = document.querySelector('#manual-mode-btn');
                 btn.addEventListener('click', () => {
-                  if (tooltipElement.hidden) tooltipElement.show();
-                  else tooltipElement.hide();
+                  if (tooltip.hidden) tooltip.show();
+                  else tooltip.hide();
                 });
               });
             </script>
@@ -202,12 +202,12 @@
             </vcf-tooltip>
             <script>
               window.addEventListener('WebComponentsReady', () => {
-                const tooltipElement = document.querySelector('#dynamic-for-tooltip');
+                const tooltip = document.querySelector('#dynamic-for-tooltip');
                 const btn = document.querySelector('#dynamic-for-btn3');
                 btn.addEventListener('click', () => {
-                  const btnIndex = tooltipElement.targetElement.id.replace('dynamic-for-btn', '');
+                  const btnIndex = tooltip.targetElement.id.replace('dynamic-for-btn', '');
                   const newBtnIndex = btnIndex === '1' ? '2' : '1';
-                  tooltipElement.for = 'dynamic-for-btn' + newBtnIndex;
+                  tooltip.for = 'dynamic-for-btn' + newBtnIndex;
                 });
               });
             </script>
@@ -233,14 +233,46 @@
             </vcf-tooltip>
             <script>
               window.addEventListener('WebComponentsReady', () => {
-                const tooltipElement = document.querySelector('#dynamic-target-tooltip');
+                const tooltip = document.querySelector('#dynamic-target-tooltip');
                 const btn = document.querySelector('#dynamic-target-btn3');
-                tooltipElement.targetElement = document.querySelector(`#dynamic-target-btn1`);
+                tooltip.targetElement = document.querySelector(`#dynamic-target-btn1`);
                 btn.addEventListener('click', () => {
-                  const btnIndex = tooltipElement.targetElement.id.replace('dynamic-target-btn', '');
+                  const btnIndex = tooltip.targetElement.id.replace('dynamic-target-btn', '');
                   const newBtnIndex = btnIndex === '1' ? '2' : '1';
-                  tooltipElement.targetElement = document.querySelector('#dynamic-target-btn' + newBtnIndex);
+                  tooltip.targetElement = document.querySelector('#dynamic-target-btn' + newBtnIndex);
                 });
+              });
+            </script>
+          </template>
+        </demo-snippet>
+      </vcf-anchor-nav-section>
+      <vcf-anchor-nav-section name="Dialog Tooltip">
+        <h2 slot="header">Dialog Tooltip</h2>
+        <demo-snippet>
+          <template>
+            <vaadin-button id="dialog-tooltip-btn1">Toggle dialog <code>opened</code></vaadin-button>
+            <vaadin-dialog id="dialog-tooltip-dialog"></vaadin-dialog>
+            <vcf-tooltip id="dialog-tooltip-tooltip" position="top" align="left" manual close-button>
+              Some descriptive text about this title.
+            </vcf-tooltip>
+            <script>
+              window.addEventListener('WebComponentsReady', () => {
+                const dialog = document.querySelector('#dialog-tooltip-dialog');
+                const btn1 = document.querySelector('#dialog-tooltip-btn1');
+                const btn2 = document.createElement('vaadin-button');
+                const tooltip = document.querySelector('#dialog-tooltip-tooltip');
+                dialog.renderer = (root, _) => {
+                  if (root.firstElementChild) return;
+                  root.appendChild(btn2);
+                  root.appendChild(tooltip);
+                  tooltip.targetElement = btn2;
+                }
+                btn1.addEventListener('click',() => (dialog.opened = !dialog.opened));
+                btn2.addEventListener('click', () => {
+                  if (tooltip.hidden) tooltip.show();
+                  else tooltip.hide();
+                });
+                btn2.innerHTML = 'Toggle tooltip <code>hidden</code>';
               });
             </script>
           </template>
