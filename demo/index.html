@@ -250,29 +250,53 @@
         <h2 slot="header">Dialog Tooltip</h2>
         <demo-snippet>
           <template>
-            <vaadin-button id="dialog-tooltip-btn1">Toggle dialog <code>opened</code></vaadin-button>
-            <vaadin-dialog id="dialog-tooltip-dialog"></vaadin-dialog>
-            <vcf-tooltip id="dialog-tooltip-tooltip" position="top" align="left" manual close-button>
-              Some descriptive text about this title.
-            </vcf-tooltip>
+            <vcf-enhanced-dialog id="dialog-tooltip-dialog"></vcf-enhanced-dialog>
+            <vaadin-button id="dialog-tooltip-btn">Toggle dialog <code>opened</code></vaadin-button>
             <script>
               window.addEventListener('WebComponentsReady', () => {
+                const buttonCount = 5;
                 const dialog = document.querySelector('#dialog-tooltip-dialog');
-                const btn1 = document.querySelector('#dialog-tooltip-btn1');
-                const btn2 = document.createElement('vaadin-button');
-                const tooltip = document.querySelector('#dialog-tooltip-tooltip');
+                const btn = document.querySelector('#dialog-tooltip-btn');
+                btn.addEventListener('click',() => (dialog.opened = !dialog.opened));
                 dialog.renderer = (root, _) => {
                   if (root.firstElementChild) return;
-                  root.appendChild(btn2);
-                  root.appendChild(tooltip);
-                  tooltip.targetElement = btn2;
+                  const content = root.shadowRoot.querySelector('[part="dialog-content"]');
+                  content.style.maxHeight = '50vh';
+                  content.style.overflowY = 'auto';
+                  for (let i = 1; i <= buttonCount; i++) {
+                    const btn = document.createElement('vaadin-button');
+                    const tooltip = document.createElement('vcf-tooltip');
+                    root.appendChild(btn);
+                    root.appendChild(tooltip);
+                    btn.id = 'dialog-tooltip-btn-' + i;
+                    btn.innerHTML = 'Toggle tooltip <b>' + i + '</b> <code>hidden</code>';
+                    btn.style.margin = '50px';
+                    btn.style.width = '320px';
+                    tooltip.dataset.btnId = btn.id;
+                    tooltip.innerText = 'A tooltip inside a dialog for button ' + i + '.';
+                    tooltip.setAttribute('position', i % 2 ? 'top' : 'bottom');
+                    tooltip.setAttribute('align', i % 2 ? 'left' : 'right');
+                    tooltip.setAttribute('manual', '');
+                    tooltip.setAttribute('close-button', '');
+                    if (i < buttonCount) root.innerHTML += '<br />';
+                    const setTargetElement = (e) => {
+                      setTimeout(() => {
+                        const tooltips = root.querySelectorAll('vcf-tooltip');
+                        for (let i in Array.from(tooltips)) {
+                          const btn = root.querySelector('#' + tooltips[i].dataset.btnId);
+                          tooltips[i].targetElement = btn;
+                          btn.addEventListener('click', () => {
+                            if (tooltips[i].hidden) tooltips[i].show();
+                            else tooltips[i].hide();
+                            debugger;
+                          });
+                        }
+                      });
+                      dialog.removeEventListener('opened-changed', setTargetElement);
+                    }
+                    dialog.addEventListener('opened-changed', setTargetElement);
+                  }
                 }
-                btn1.addEventListener('click',() => (dialog.opened = !dialog.opened));
-                btn2.addEventListener('click', () => {
-                  if (tooltip.hidden) tooltip.show();
-                  else tooltip.hide();
-                });
-                btn2.innerHTML = 'Toggle tooltip <code>hidden</code>';
               });
             </script>
           </template>

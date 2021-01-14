@@ -286,10 +286,12 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   _setPosition(targetElement, hidden, position) {
     if (targetElement && !hidden) {
-      const parentRect = this.offsetParent.getBoundingClientRect();
-      const parentRectTop = parentRect.top;
-      const parentRectLeft = parentRect.left;
-      const parentRectHeight = parentRect.height;
+      let parentRectHeight = window.innerHeight;
+      let parentRectWidth = window.innerWidth;
+      if (this.offsetParent) {
+        parentRectHeight = this.offsetParent.scrollHeight;
+        parentRectWidth = this.offsetParent.scrollWidth;
+      }
       const targetRect = this.targetElement.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
       const horizontalCenterOffset = (targetRect.width - thisRect.width) / 2;
@@ -324,7 +326,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           break;
       }
 
-      this._setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect);
+      this._setPositionInVisibleBounds(parentRectHeight, parentRectWidth, tooltipLeft, tooltipTop, thisRect);
     }
   }
 
@@ -333,9 +335,9 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
     return window.getComputedStyle(this.offsetParent).position !== 'static';
   }
 
-  _setPositionInVisibleBounds(parentRectHeight, parentRectLeft, parentRectTop, tooltipLeft, tooltipTop, thisRect) {
-    // Check and fix horizontal position
-    if (parentRectLeft + tooltipLeft + thisRect.width > window.innerWidth) {
+  _setPositionInVisibleBounds(parentRectHeight, parentRectWidth, tooltipLeft, tooltipTop, thisRect) {
+    // Check and fix horizontal positionparentRectHeight
+    if (tooltipLeft + thisRect.width > parentRectWidth) {
       this.style.right = '0px';
       this.style.left = 'auto';
     } else {
@@ -343,13 +345,11 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
       this.style.right = 'auto';
     }
     // Check and fix vertical position
-    let parentHeight = window.innerHeight;
-    if (this.offsetParent && this.offsetParent.scrollHeight > window.innerHeight) parentHeight = this.offsetParent.scrollHeight;
-    if (parentRectTop + tooltipTop + thisRect.height > parentHeight) {
+    if (tooltipTop + thisRect.height > parentRectHeight) {
       this.style.bottom = parentRectHeight + 'px';
       this.style.top = 'auto';
     } else {
-      this.style.top = Math.max(-parentRectTop, tooltipTop) + 'px';
+      this.style.top = Math.max(0, tooltipTop) + 'px';
       this.style.bottom = 'auto';
     }
   }

@@ -2,10 +2,10 @@ import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
 import '@polymer/iron-demo-helpers/demo-snippet';
 import '@polymer/iron-icon';
 import '@vaadin/vaadin-button';
-import '@vaadin/vaadin-dialog';
 import '@vaadin/vaadin-lumo-styles/icons';
 import '@vaadin/vaadin-lumo-styles/typography';
 import '@vaadin-component-factory/vcf-anchor-nav';
+import '@vaadin-component-factory/vcf-enhanced-dialog';
 import '../src/vcf-tooltip';
 import './demo-icons';
 
