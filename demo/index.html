@@ -138,23 +138,21 @@
             <style>
               [part='tooltip-title'],
               [part='tooltip-description'] {
-                text-align: left;
-                padding: 5px;
-                width: 100%;
+                padding: 0 8px;
               }
 
               [part='tooltip-title'] {
-                border-radius: 5px;
-                background: var(--lumo-shade);
+                font-style: italic;
+                margin-bottom: 0;
               }
 
             </style>
             <input type="text" id="rich-text-field" value="Text" />
             <vcf-tooltip for="rich-text-field" position="bottom" align="left" close-button>
-              <div part="tooltip-title">Edit</div>
-              <div part="tooltip-description">
+              <h3 part="tooltip-title">Edit</h3>
+              <p part="tooltip-description">
                 You are entitled to edit any text in this field.
-              </div>
+              </p>
             </vcf-tooltip>
           </template>
         </demo-snippet>

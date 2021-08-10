@@ -13,8 +13,8 @@ registerStyles(
       --lumo-tooltip-size: var(--lumo-size-m);
       /* Style */
       font-family: var(--lumo-font-family);
-      font-size: var(--lumo-font-size-m);
-      font-weight: 500;
+      font-size: var(--lumo-font-size-s, 0.875rem);
+      line-height: var(--lumo-line-height-s, 1.375);
       cursor: default;
       -webkit-tap-highlight-color: transparent;
       -webkit-font-smoothing: antialiased;

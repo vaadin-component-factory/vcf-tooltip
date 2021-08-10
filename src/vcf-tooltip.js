@@ -51,8 +51,6 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           -ms-user-select: none;
           -webkit-user-select: none;
           user-select: none;
-          cursor: default;
-          box-shadow: var(--lumo-box-shadow-xs);
 
           --tooltip-animation-duration: 250ms;
           --tooltip-delay: 500ms;
@@ -92,7 +90,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
           color: var(--lumo-body-text-color);
           background-color: var(--lumo-base-color);
           border-radius: var(--lumo-border-radius);
-          border: 1px solid var(--lumo-contrast-20pct);
+          box-shadow: var(--lumo-box-shadow-xs);
         }
 
         :host([hidden]) [part='content'] {
