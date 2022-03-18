@@ -2,7 +2,7 @@ import { html, PolymerElement } from '@polymer/polymer';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
 import { ElementMixin } from '@vaadin/component-base';
 import '@vaadin/vaadin-lumo-styles/icons';
-import './vcf-tooltip-styles';
+import './vcf-tooltip-styles.js';
 
 /**
  * `<vcf-tooltip>` Web Component providing an easy way to display tooltips for any html element.
@@ -35,7 +35,7 @@ import './vcf-tooltip-styles';
  * @mixes ThemableMixin
  * @demo demo/index.html
  */
-class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
+export class Tooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -423,9 +423,9 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 }
 
-customElements.define(VcfTooltip.is, VcfTooltip);
+customElements.define(Tooltip.is, Tooltip);
 
 /**
  * @namespace Vaadin
  */
-window.Vaadin.VcfTooltip = VcfTooltip;
+window.Vaadin.VcfTooltip = Tooltip;
