@@ -1,8 +1,7 @@
-import { html, PolymerElement } from '@polymer/polymer/polymer-element';
+import { html, PolymerElement } from '@polymer/polymer';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin';
-import { ElementMixin } from '@vaadin/vaadin-element-mixin';
+import { ElementMixin } from '@vaadin/component-base';
 import '@vaadin/vaadin-lumo-styles/icons';
-import '@polymer/iron-icon';
 import './vcf-tooltip-styles';
 
 /**
@@ -127,7 +126,7 @@ class VcfTooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '1.3.15';
+    return '23.0.0';
   }
 
   static get properties() {
