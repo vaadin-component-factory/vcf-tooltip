@@ -1,6 +1,6 @@
 {
   "name": "@vaadin-component-factory/vcf-tooltip",
-  "version": "23.0.0",
+  "version": "23.0.1",
   "description": "Web Component providing an easy way to display tooltips for any html element.",
   "main": "src/vcf-tooltip.js",
   "author": "Vaadin Ltd",
