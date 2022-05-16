@@ -260,18 +260,20 @@ export class Tooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   _addEvents() {
-    if (this.targetElement && !this.manual) {
-      this.targetElement.addEventListener('mouseenter', this._boundShow);
-      this.targetElement.addEventListener('focus', this._boundShow);
-      this.targetElement.addEventListener('mouseleave', this._boundHide);
-      this.targetElement.addEventListener('blur', this._boundHide);
-      this.targetElement.addEventListener('tap', this._boundHide);
-    }
-
-    if (!this.manual) {
-      this.addEventListener('mouseenter', this._boundShow);
-      this.addEventListener('mouseleave', this._boundHide);
-    }
+    // Delay execution to ensure targetElement has rendered.
+    requestAnimationFrame(() => {
+      if (this.targetElement && !this.manual) {
+        this.targetElement.addEventListener('mouseenter', this._boundShow);
+        this.targetElement.addEventListener('focus', this._boundShow);
+        this.targetElement.addEventListener('mouseleave', this._boundHide);
+        this.targetElement.addEventListener('blur', this._boundHide);
+        this.targetElement.addEventListener('tap', this._boundHide);
+      }
+      if (!this.manual) {
+        this.addEventListener('mouseenter', this._boundShow);
+        this.addEventListener('mouseleave', this._boundHide);
+      }
+    });
   }
 
   _detachFromTarget() {
