@@ -126,7 +126,7 @@ export class Tooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
   }
 
   static get version() {
-    return '23.0.3';
+    return '23.0.4';
   }
 
   static get properties() {
