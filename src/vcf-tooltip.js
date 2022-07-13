@@ -350,7 +350,7 @@ export class Tooltip extends ElementMixin(ThemableMixin(PolymerElement)) {
 
   // Detct if the offset parent is [positoned](https://developer.mozilla.org/en-US/docs/Web/CSS/position#types_of_positioning)
   get _parentPostioned() {
-    return window.getComputedStyle(this.offsetParent).position !== 'static';
+    return this.offsetParent && window.getComputedStyle(this.offsetParent).position !== 'static';
   }
 
   _setPositionInVisibleBounds(parentRectHeight, parentRectWidth, tooltipLeft, tooltipTop, thisRect) {
