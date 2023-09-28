@@ -1,4 +1,4 @@
-declare const Tooltip_base: typeof PolymerElement & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/vaadin-themable-mixin").ThemableMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin").ThemePropertyMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/component-base/src/dir-mixin").DirMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/component-base/src/element-mixin").ElementMixinClass>;
+declare const Tooltip_base: typeof PolymerElement & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/vaadin-themable-mixin").ThemableMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/vaadin-themable-mixin/vaadin-theme-property-mixin.js").ThemePropertyMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/component-base/src/dir-mixin.js").DirMixinClass> & import("@open-wc/dedupe-mixin").Constructor<import("@vaadin/component-base/src/element-mixin.js").ElementMixinClass>;
 /**
  * `<vcf-tooltip>` Web Component providing an easy way to display tooltips for any html element.
  *
