@@ -58,7 +58,7 @@
     "@polymer/test-fixture": "^4.0.2",
     "@vaadin-component-factory/vcf-anchor-nav": "^1.0.1",
     "@vaadin-component-factory/vcf-element-util": "^0.1.4",
-    "@vaadin-component-factory/vcf-enhanced-dialog": "^22.0.7",
+    "@vaadin-component-factory/vcf-enhanced-dialog": "22.0.5",
     "@vaadin/button": "^22.0.22",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "babel-eslint": "^10.0.2",
